@@ -1,3 +1,8 @@
+#!/usr/bin/python3
+"""
+Module to generate a Pascal's triangle.
+"""
+
 def pascal_triangle(n):
     """
     Generate Pascal's triangle of n rows.
