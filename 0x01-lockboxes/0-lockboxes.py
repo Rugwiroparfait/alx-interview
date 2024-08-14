@@ -1,30 +1,43 @@
-def canUnlockAll(boxes):
-    from collections import deque
+#!/usr/bin/python3
+"""
+This module contains a function to determine if all boxes can be unlocked.
 
-    # Initialize the queue with the first box (index 0)
+The `canUnlockAll` function uses a breadth-first search approach to check if all
+boxes in a given list can be unlocked starting from the first box.
+
+Author: Your Name
+"""
+
+from collections import deque
+
+def canUnlockAll(boxes):
+    """
+    Determines if all the boxes can be unlocked.
+
+    Args:
+        boxes (list of list of int): A list of lists where each sublist represents
+                                     a box and contains keys to other boxes.
+
+    Returns:
+        bool: True if all boxes can be unlocked, False otherwise.
+    """
     queue = deque([0])
     visited = set()
 
     while queue:
-        # Get the current box index from the queue
         current_box = queue.popleft()
 
-        # Skip this box if it has already been visited
         if current_box in visited:
             continue
 
-        # Mark the current box as visited
         visited.add(current_box)
 
-        # Get the list of keys in the current box
         keys = boxes[current_box]
-
-        # For each key in the current box
         for key in keys:
-            # If the key is within bounds and opens a box that hasn't been visited, add it to the queue
             if 0 <= key < len(boxes) and key not in visited:
                 queue.append(key)
 
-    # Check if we've visited all the boxes
     return len(visited) == len(boxes)
+
+# Ensure this file ends with a newline
 
