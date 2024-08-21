@@ -3,12 +3,15 @@
 This module contains the minOperations function.
 """
 
+
 def minOperations(n):
     """
-    Calculates the minimum number of operations needed to get exactly n 'H' characters in the file.
-    
+    Calculates the minimum number of operations needed
+    to get exactly n 'H' characters in the file.
+
     :param n: The target number of 'H' characters.
-    :return: The minimum number of operations or 0 if n is impossible to achieve.
+    :return: The minimum number of operations or 0
+    if n is impossible to achieve.
     """
     if n <= 1:
         return 0
