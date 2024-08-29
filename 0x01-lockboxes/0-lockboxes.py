@@ -2,7 +2,8 @@
 """
 This module contains a function to determine if all boxes can be unlocked.
 
-The `canUnlockAll` function uses a breadth-first search approach to check if all
+The `canUnlockAll` function uses a breadth-first
+search approach to check if all
 boxes in a given list can be unlocked starting from the first box.
 
 Author: Your Name
@@ -15,8 +16,9 @@ def canUnlockAll(boxes):
     Determines if all the boxes can be unlocked.
 
     Args:
-        boxes (list of list of int): A list of lists where each sublist represents
-                                     a box and contains keys to other boxes.
+        boxes (list of list of int): A list of lists where each
+        sublist represents
+        a box and contains keys to other boxes.
 
     Returns:
         bool: True if all boxes can be unlocked, False otherwise.
@@ -38,6 +40,3 @@ def canUnlockAll(boxes):
                 queue.append(key)
 
     return len(visited) == len(boxes)
-
-# Ensure this file ends with a newline
-
