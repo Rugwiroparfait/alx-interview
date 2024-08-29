@@ -15,6 +15,7 @@ status_code_counts = {
     '500': 0
 }
 
+
 def print_stats():
     """
     Print the accumulated statistics.
@@ -24,12 +25,14 @@ def print_stats():
         if status_code_counts[code] > 0:
             print("{}: {}".format(code, status_code_counts[code]))
 
+
 def signal_handler(sig, frame):
     """
     Handle the CTRL+C signal by printing the stats and exiting.
     """
     print_stats()
     sys.exit(0)
+
 
 signal.signal(signal.SIGINT, signal_handler)
 
