@@ -16,6 +16,7 @@ if N < 4:
     print("N must be at least 4")
     sys.exit(1)
 
+
 # Define the function to check if it's safe to place a queen
 def is_safe(board, row, col):
     """Check if it's safe to place a queen at board[row][col]"""
@@ -31,6 +32,7 @@ def is_safe(board, row, col):
 
     return True
 
+
 # Define the backtracking function to solve N Queens
 def solve_nqueens(N):
     """Solve the N Queens problem and print all solutions"""
@@ -39,7 +41,7 @@ def solve_nqueens(N):
             # If all queens are placed, print the board configuration
             print([[i, board[i]] for i in range(N)])
             return
-        
+
         for col in range(N):
             if is_safe(board, row, col):
                 board[row] = col
@@ -48,6 +50,7 @@ def solve_nqueens(N):
 
     board = [-1] * N
     backtrack(0, board)
+
 
 # Call the solver
 solve_nqueens(N)
