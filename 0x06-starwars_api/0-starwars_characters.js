@@ -1,35 +1,50 @@
 #!/usr/bin/node
-
-const request = require('request');
-const movieId = process.argv[2];
-const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
-
-if (!movieId) {
-  console.log('Please provide a Movie ID');
-  process.exit(1);
+/**
+ * Wrapper function for request object that allows it
+ * to work with async and await
+ * @param   {String} url - site url
+ * @returns {Promise}    - promise object that resolves
+ *                         with parsed JSON response
+ *                         and rejects with the request error.
+ */
+function makeRequest (url) {
+  const request = require('request');
+  return new Promise((resolve, reject) => {
+    request.get(url, (error, response, body) => {
+      if (error) reject(error);
+      else resolve(JSON.parse(body));
+    });
+  });
 }
 
-// Fetch the movie details from the API
-request(apiUrl, function (error, response, body) {
-  if (error) {
-    console.error('Error:', error);
-  } else if (response.statusCode === 200) {
-    const filmData = JSON.parse(body);
-    const characters = filmData.characters;
+/**
+ * Entry point - makes requests to Star Wars API
+ * for movie info based on movie ID passed as a CLI parameter.
+ * Retrieves movie character info then prints their names
+ * in order of appearance in the initial response.
+ */
+async function main () {
+  const args = process.argv;
 
-    // Fetch and print each character's name
-    characters.forEach((characterUrl) => {
-      request(characterUrl, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-          const characterData = JSON.parse(body);
-          console.log(characterData.name);
-        } else {
-          console.error('Error fetching character:', error);
-        }
-      });
-    });
-  } else {
-    console.log(`Failed to retrieve movie: ${response.statusCode}`);
+  if (args.length < 3) {
+    console.error('Usage: ./0-starwars_characters.js <movie_id>');
+    return;
   }
-});
+
+  try {
+    const movieUrl = 'https://swapi-api.alx-tools.com/api/films/' + args[2];
+    const movie = await makeRequest(movieUrl);
+
+    if (movie.characters === undefined) return;
+
+    for (const characterUrl of movie.characters) {
+      const character = await makeRequest(characterUrl);
+      console.log(character.name);
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+}
+
+main();
 
