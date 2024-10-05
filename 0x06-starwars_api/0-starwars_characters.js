@@ -1,11 +1,11 @@
 #!/usr/bin/node
 
 const request = require('request');
+const util = require('util');
+const requestPromise = util.promisify(request);
 
-// Get the movie ID from the command line argument
 const movieId = process.argv[2];
 
-// Construct the API URL for the movie
 const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
 
 if (!movieId) {
@@ -13,25 +13,19 @@ if (!movieId) {
   process.exit(1);
 }
 
-// Make the HTTP request to the API
-request(apiUrl, (error, response, body) => {
-  if (error) {
-    console.error(error);
-    return;
+async function starWarsCharacters () {
+  try {
+    const resp = await requestPromise(apiUrl);
+    const movies = JSON.parse(resp.body);
+    const characters = movies.characters;
+    for (const charUrl of characters) {
+      const chars = await requestPromise(charUrl);
+      const movieCharacters = JSON.parse(chars.body);
+      console.log(movieCharacters.name);
+    }
+  } catch (error) {
+    throw error;
   }
+}
 
-  // Parse the JSON response
-  const film = JSON.parse(body);
-  const characters = film.characters;
-
-  // For each character URL, make another HTTP request
-  characters.forEach(characterUrl => {
-    request(characterUrl, (charError, charResponse, charBody) => {
-      if (!charError) {
-        const character = JSON.parse(charBody);
-        console.log(character.name); // Print character name
-      }
-    });
-  });
-});
-
+starWarsCharacters();
